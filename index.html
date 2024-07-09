@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      color: #333;
+    }
+    .calculator {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"] {
+      font-size: 24px;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      text-align: right;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      outline: none;
+    }
+    .btn {
+      font-size: 18px;
+      padding: 15px 20px;
+      margin: 5px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #45a049;
+    }
+    .btn.red {
+      background-color: #f44336;
+    }
+    .btn.red:hover {
+      background-color: #d32f2f;
+    }
+    .btn.gray {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+    .btn.gray:hover {
+      background-color: #bdbdbd;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+    }
+    .row button {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h1>Calculator</h1>
+    <input type="text" id="display" disabled><br><br>
+    <div class="row">
+      <button class="btn" onclick="appendToDisplay('᱑')">᱑</button>
+      <button class="btn" onclick="appendToDisplay('᱒')">᱒</button>
+      <button class="btn" onclick="appendToDisplay('᱓')">᱓</button>
+      <button class="btn red" onclick="appendToDisplay('+')">+</button>
+    </div>
+    <div class="row">
+      <button class="btn" onclick="appendToDisplay('᱔')">᱔</button>
+      <button class="btn" onclick="appendToDisplay('᱕')">᱕</button>
+      <button class="btn" onclick="appendToDisplay('᱖')">᱖</button>
+      <button class="btn red" onclick="appendToDisplay('-')">-</button>
+    </div>
+    <div class="row">
+      <button class="btn" onclick="appendToDisplay('᱗')">᱗</button>
+      <button class="btn" onclick="appendToDisplay('᱘')">᱘</button>
+      <button class="btn" onclick="appendToDisplay('᱙')">᱙</button>
+      <button class="btn red" onclick="appendToDisplay('*')">x</button>
+    </div>
+    <div class="row">
+      <button class="btn" onclick="appendToDisplay('᱐')">᱐</button>
+      <button class="btn gray" onclick="appendToDisplay('.')">.</button>
+      <button class="btn gray" onclick="clearDisplay()">C</button>
+      <button class="btn red" onclick="appendToDisplay('/')">÷</button>
+    </div>
+    <div class="row">
+      <button class="btn gray" style="flex: 4;" onclick="calculate()">=</button>
+    </div>
+  </div>
+  
+  <script>
+    const olchikiToArabicMap = {
+      '᱐': '0', '᱑': '1', '᱒': '2', '᱓': '3', '᱔': '4',
+      '᱕': '5', '᱖': '6', '᱗': '7', '᱘': '8', '᱙': '9'
+    };
+
+    const arabicToOlchikiMap = {
+      '0': '᱐', '1': '᱑', '2': '᱒', '3': '᱓', '4': '᱔',
+      '5': '᱕', '6': '᱖', '7': '᱗', '8': '᱘', '9': '᱙'
+    };
+
+    function appendToDisplay(value) {
+      document.getElementById('display').value += value;
+    }
+
+    function clearDisplay() {
+      document.getElementById('display').value = '';
+    }
+
+    function calculate() {
+      try {
+        let expression = document.getElementById('display').value;
+        expression = convertOlchikiToArabic(expression);
+        let result = eval(expression);
+        result = convertArabicToOlchiki(result.toString());
+        document.getElementById('display').value = result;
+      } catch (error) {
+        document.getElementById('display').value = 'Error';
+      }
+    }
+
+    function convertOlchikiToArabic(str) {
+      return str.replace(/[᱐᱑᱒᱓᱔᱕᱖᱗᱘᱙]/g, match => olchikiToArabicMap[match]);
+    }
+
+    function convertArabicToOlchiki(str) {
+      return str.replace(/[0-9]/g, match => arabicToOlchikiMap[match]);
+    }
+  </script>
+</body>
+</html>
